@@ -24,7 +24,7 @@ from sklearn.metrics import (
 from sklearn.base import clone
 # 1. Set up project paths
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = PROJECT_ROOT / "data" / "cleaned_churn.csv"
+DATA_PATH = PROJECT_ROOT / "data" / "cleaned_churn_median.csv"
 MODEL_DIR = PROJECT_ROOT / "models"
 
 if not DATA_PATH.is_file():

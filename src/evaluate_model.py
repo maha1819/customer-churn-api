@@ -22,7 +22,7 @@ from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier
 
 # Paths
 ROOT = Path(__file__).resolve().parents[1]
-DATA_PATH = ROOT / "data" / "cleaned_churn.csv"
+DATA_PATH = ROOT / "data" / "cleaned_churn_median.csv"
 MODEL_DIR = ROOT / "models"
 MODEL_DIR.mkdir(exist_ok=True)
 

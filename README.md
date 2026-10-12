@@ -31,10 +31,8 @@ This project builds a binary classification pipeline using customer account info
 - **Version control:** Git and GitHub
 
 ## Project Structure
-
-```text
 customer-churn-api/
-├── data/                  # Local datasets (not tracked by Git)
+├── data/                       # Local datasets, excluded from Git
 ├── models/
 │   ├── best_churn_pipeline.joblib
 │   └── model_metrics.json
@@ -42,8 +40,10 @@ customer-churn-api/
 │   ├── inspect_data.py
 │   ├── audit_data.py
 │   ├── prepare_data.py
+│   ├── compare_imputation_strategies.py
 │   ├── train_model.py
 │   ├── evaluate_model.py
+│   ├── tune_models.py
 │   └── api.py
 ├── tests/
 │   └── test_api.py
@@ -54,24 +54,26 @@ customer-churn-api/
 
 ## Model Evaluation
 
-The dataset contains 7,043 customer records. Approximately 26.5% of customers in the dataset have churned, so accuracy alone is not sufficient for evaluating model performance.
+The dataset contains 7,043 customer records, with approximately 26.5% belonging to the churn class. Because the classes are imbalanced, the project evaluates multiple metrics rather than relying on accuracy alone.
 
-The evaluation workflow compares three classification algorithms and uses cross-validation to select a model and tune its decision threshold.
+Three classification algorithms were compared: Logistic Regression, Random Forest, and Gradient Boosting. Hyperparameters were tuned using randomized search with five-fold stratified cross-validation, using ROC-AUC as the model-selection metric. The decision threshold was tuned using out-of-fold predictions to improve the balance between precision and recall.
 
-The current saved model was selected using cross-validated F1-score.
+**Selected model:** Gradient Boosting  
+**Decision threshold:** 0.31  
+**Model-selection metric:** Five-fold cross-validation ROC-AUC
 
 | Metric | Held-out test result |
 |---|---:|
-| Accuracy | 76.15% |
-| Precision | 53.88% |
-| Recall | 70.59% |
-| F1-score | 61.11% |
-| ROC-AUC | 84.14% |
+| Accuracy | 76.72% |
+| Balanced accuracy | 76.30% |
+| Precision | 54.44% |
+| Recall | 75.40% |
+| F1-score | 63.23% |
+| ROC-AUC | 84.63% |
 
-**Selected model:** Logistic Regression  
-**Decision threshold:** 0.60
+Recall measures the proportion of actual churners identified by the model, while precision measures how often its positive churn predictions are correct. The decision threshold affects this trade-off and can be adjusted to suit business priorities.
 
-These results are from the current evaluation run. The test set has been examined during development, so a separate untouched test set would be preferable for a final unbiased performance estimate.
+These metrics are development results from the current held-out test split. Since the test results have been examined during development, evaluation on a new, untouched dataset would provide a stronger estimate of generalization performance.
 
 ## Setup and Installation
 
