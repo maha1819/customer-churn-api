@@ -14,3 +14,4 @@ __pycache__/
 
 # Raw dataset (keep local; document download instructions instead)
 data/
+.pytest_cache/

@@ -1,0 +1,68 @@
+{
+    "selected_model": "Logistic Regression",
+    "threshold": 0.6,
+    "selection_metric": "out-of-fold training F1",
+    "cv_folds": 5,
+    "random_state": 42,
+    "features": [
+        "gender",
+        "SeniorCitizen",
+        "Partner",
+        "Dependents",
+        "tenure",
+        "PhoneService",
+        "MultipleLines",
+        "InternetService",
+        "OnlineSecurity",
+        "OnlineBackup",
+        "DeviceProtection",
+        "TechSupport",
+        "StreamingTV",
+        "StreamingMovies",
+        "Contract",
+        "PaperlessBilling",
+        "PaymentMethod",
+        "MonthlyCharges",
+        "TotalCharges"
+    ],
+    "positive_class": "Yes",
+    "test_metrics": {
+        "test_accuracy": 0.7615330021291696,
+        "test_precision": 0.5387755102040817,
+        "test_recall": 0.7058823529411765,
+        "test_f1": 0.6111111111111112,
+        "test_roc_auc": 0.8414063912785139
+    },
+    "all_model_results": [
+        {
+            "model": "Logistic Regression",
+            "oof_f1_at_selected_threshold": 0.6368483412322274,
+            "threshold": 0.6,
+            "test_accuracy": 0.7615330021291696,
+            "test_precision": 0.5387755102040817,
+            "test_recall": 0.7058823529411765,
+            "test_f1": 0.6111111111111112,
+            "test_roc_auc": 0.8414063912785139
+        },
+        {
+            "model": "Random Forest",
+            "oof_f1_at_selected_threshold": 0.6118535735037769,
+            "threshold": 0.45,
+            "test_accuracy": 0.7558552164655784,
+            "test_precision": 0.5308641975308642,
+            "test_recall": 0.6898395721925134,
+            "test_f1": 0.6,
+            "test_roc_auc": 0.821639670360898
+        },
+        {
+            "model": "Gradient Boosting",
+            "oof_f1_at_selected_threshold": 0.6352941176470588,
+            "threshold": 0.35,
+            "test_accuracy": 0.7764371894960965,
+            "test_precision": 0.5626326963906582,
+            "test_recall": 0.7085561497326203,
+            "test_f1": 0.6272189349112426,
+            "test_roc_auc": 0.8433620088351547
+        }
+    ]
+}
