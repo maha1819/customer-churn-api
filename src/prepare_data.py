@@ -8,14 +8,14 @@ import pandas as pd
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
 
-csv_files = list(DATA_DIR.glob("*.csv"))
+raw_path = DATA_DIR / "WA_Fn-UseC_-Telco-Customer-Churn.csv"
 
-if len(csv_files) != 1:
+if not raw_path.is_file():
     raise FileNotFoundError(
-        f"Expected exactly one raw CSV in {DATA_DIR}; found {len(csv_files)}."
+        f"Raw dataset not found: {raw_path}"
     )
 
-df = pd.read_csv(csv_files[0])
+df = pd.read_csv(raw_path)
 
 # 1. Validate the expected schema before modifying the data.
 required_columns = {
@@ -28,13 +28,32 @@ if missing_columns:
 
 # 2. Clean TotalCharges and convert it to a numeric type.
 raw_charges = df["TotalCharges"].astype("string").str.strip()
+
 blank_mask = raw_charges.eq("").fillna(False)
-
 cleaned_charges = raw_charges.mask(blank_mask, pd.NA)
-df["TotalCharges"] = pd.to_numeric(cleaned_charges, errors="coerce")
 
-# 3. Validate that missing charges have the pattern found in our audit.
+numeric_charges = pd.to_numeric(
+    cleaned_charges,
+    errors="coerce"
+)
+
+invalid_mask = (~blank_mask) & numeric_charges.isna()
+
+if invalid_mask.any():
+    examples = raw_charges[invalid_mask].head().tolist()
+    raise ValueError(
+        f"Unexpected non-numeric TotalCharges values: {examples}"
+    )
+
+df["TotalCharges"] = numeric_charges
+
 missing_charges = df["TotalCharges"].isna()
+
+if df.loc[missing_charges, "tenure"].ne(0).any():
+    raise ValueError(
+        "Found missing TotalCharges for customers whose tenure is not zero. "
+        "Investigate these records before proceeding."
+    )
 
 if df.loc[missing_charges, "tenure"].ne(0).any():
     raise ValueError(
