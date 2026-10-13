@@ -173,3 +173,47 @@ The current test suite covers successful API responses, prediction output valida
 ## Disclaimer
 
 This project is intended for educational and portfolio purposes. Predictions are estimates based on historical data and should not be treated as guaranteed outcomes.
+
+
+## Run with Docker
+
+### Prerequisites
+- Docker Desktop installed and running
+- Git
+
+### Build the image
+
+Clone the repository and enter the project directory:
+
+```bash
+git clone https://github.com/maha1819/customer-churn-api.git
+cd customer-churn-api
+```
+
+Build the Docker image:
+
+```bash
+docker build -t customer-churn-api .
+```
+
+### Start the API
+
+```bash
+docker run --rm -p 8000:8000 --name churn-api-container customer-churn-api
+```
+
+### Test the API
+
+Health endpoint:
+
+http://localhost:8000/health
+
+Interactive API documentation:
+
+http://localhost:8000/docs
+
+Use `POST /predict` to submit customer details and receive a churn prediction and churn probability.
+
+### Stop the container
+
+Press `Ctrl+C` in the terminal running the container.
